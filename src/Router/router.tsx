@@ -6,7 +6,7 @@ import SitesPlanPage from "../100--App/SitesPlanPage/SitesPlanPage";
 
 export const router = createBrowserRouter([
   {
-    path: "/plan",
+    path: "/plan/:token",
     element: <SitesPlanPage />,
   },
 ]);
