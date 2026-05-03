@@ -216,14 +216,14 @@ const SitesPlanPage = () => {
           Validation du lien du plan...
         </p>
       )}
-{/* 
+
       {planAccessStatus === 'denied' && (
         <p className="text-[1.6em] font-bold text-secondary text-center">
           Lien du plan invalide ou expiré.
         </p>
-      )} */}
+      )}
 
-      {planAccessStatus === 'denied' && <section className='flex flex-col items-center'>
+      {planAccessStatus === 'allowed' && <section className='flex flex-col items-center'>
         <div  className='relative fade-image'>
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
@@ -239,7 +239,7 @@ const SitesPlanPage = () => {
           <GreenDots showDots={showDots} dotRefs={dotRefs} />
         </div>
       </section>}
-      {planAccessStatus === 'denied' && <section className='flex flex-col items-center gap-4'>
+      {planAccessStatus === 'allowed' && <section className='flex flex-col items-center gap-4'>
         <input
           type="text"
           value={searchInput}
