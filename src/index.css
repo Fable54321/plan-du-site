@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+
+
+html, root, body {
+ min-height: 100vh;
+}
