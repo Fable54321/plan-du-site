@@ -230,7 +230,7 @@ useEffect(() => {
   };
 }, []);
 
-const dotSize = Math.max(4, 20 / zoomScale);
+const dotSize = Math.max(5, 22 / zoomScale);
 
 
 
