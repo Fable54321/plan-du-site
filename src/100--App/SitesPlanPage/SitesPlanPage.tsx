@@ -209,6 +209,30 @@ const SitesPlanPage = () => {
     });
   }, [searchInput, showDots]);
 
+
+
+const [zoomScale, setZoomScale] = useState(1);
+
+useEffect(() => {
+  const updateZoom = () => {
+    setZoomScale(window.visualViewport?.scale ?? 1);
+  };
+
+  updateZoom();
+
+  window.visualViewport?.addEventListener("resize", updateZoom);
+  window.visualViewport?.addEventListener("scroll", updateZoom);
+
+  return () => {
+    window.visualViewport?.removeEventListener("resize", updateZoom);
+    window.visualViewport?.removeEventListener("scroll", updateZoom);
+  };
+}, []);
+
+const dotSize = Math.max(8, 24 / zoomScale);
+
+
+
   return (
     <article className="flex flex-col items-center gap-6 pb-10 overflow-x-hidden">
       {planAccessStatus === 'checking' && (
@@ -232,8 +256,8 @@ const SitesPlanPage = () => {
     style={{
       left: `${userPosition.left}%`,
       top: `${userPosition.top}%`,
-       width: "clamp(6px, 1.8vw, 16px)",
-  height: "clamp(6px, 1.8vw, 16px)",
+       width: `${dotSize}px`,
+  height: `${dotSize}px`,
       transform: "translate(-50%, -50%)",
     }}
   />
