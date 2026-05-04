@@ -215,7 +215,7 @@ const [zoomScale, setZoomScale] = useState(1);
 
 useEffect(() => {
   const updateZoom = () => {
-    setZoomScale(window.visualViewport?.scale ?? 1);
+    setZoomScale(window.visualViewport?.scale ? window.visualViewport.scale * 1.1 : 1);
   };
 
   updateZoom();
