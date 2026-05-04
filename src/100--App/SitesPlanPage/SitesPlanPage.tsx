@@ -215,7 +215,7 @@ const [zoomScale, setZoomScale] = useState(1);
 
 useEffect(() => {
   const updateZoom = () => {
-    setZoomScale(window.visualViewport?.scale ? window.visualViewport.scale * 1.1 : 1);
+    setZoomScale(window.visualViewport?.scale ? (window.visualViewport.scale * 2) : 1);
   };
 
   updateZoom();
@@ -252,7 +252,7 @@ const dotSize = Math.max(8, 24 / zoomScale);
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
   <div
-    className="absolute rounded-full bg-blue-500 border border-white"
+    className="absolute rounded-full bg-blue-500"
     style={{
       left: `${userPosition.left}%`,
       top: `${userPosition.top}%`,
