@@ -48,7 +48,7 @@ const OrientationComponent = ({ userPosition, dotSize }: Props) => {
     >
       <div 
         style={{
-          transform: `rotate((${heading} + 90)deg)`,
+          transform:`rotate(${heading + 90}deg)`,
           transformOrigin: "50% 70%",
           height: `${dotSize}px`,
           width: `${dotSize}px`,
