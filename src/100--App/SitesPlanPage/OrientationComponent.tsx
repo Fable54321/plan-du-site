@@ -46,7 +46,7 @@ const OrientationComponent = ({ userPosition, dotSize }: Props) => {
         transform: "translate(-50%, -50%)",
       }}
     >
-      <div className="bg-[#EDFF29]"
+      <div 
         style={{
           transform: `rotate((${heading} + 90)deg)`,
           transformOrigin: "50% 70%",
@@ -54,13 +54,13 @@ const OrientationComponent = ({ userPosition, dotSize }: Props) => {
           width: `${dotSize}px`,
         }}
       >
-        <div
+        <div 
           style={{
             width: 0,
             height: 0,
             borderLeft: `${dotSize / 3}px solid transparent`,
             borderRight: `${dotSize / 3}px solid transparent`,
-            borderBottom: `${dotSize}px solid #3b82f6`,
+            borderBottom: `${dotSize}px solid #EDFF29`,
           }}
         />
       </div>
