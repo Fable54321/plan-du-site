@@ -5,6 +5,7 @@ import buildingsList from '../../assets/data/buildingsList'
 import plan from '../../assets/images/1777456864065-7231d062-1073-44d2-a4d6-6d346233fa41_1_upscayl_4x_upscayl-standard-4x.png'
 import { gpsToPlanPosition } from '../../Utils/gpsToPlanPosition'
 import { getVisitorPlan } from '../../api/visitorPlanApi'
+import OrientationComponent from './OrientationComponent'
 
 
 
@@ -229,7 +230,7 @@ useEffect(() => {
   };
 }, []);
 
-const dotSize = Math.max(4, 24 / zoomScale);
+const dotSize = Math.max(4, 20 / zoomScale);
 
 
 
@@ -251,16 +252,7 @@ const dotSize = Math.max(4, 24 / zoomScale);
         <div  className='relative fade-image'>
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
-  <div
-    className="absolute rounded-full bg-[#EDFF29]"
-    style={{
-      left: `${userPosition.left}%`,
-      top: `${userPosition.top}%`,
-       width: `${dotSize}px`,
-  height: `${dotSize}px`,
-      transform: "translate(-50%, -50%)",
-    }}
-  />
+<OrientationComponent userPosition={userPosition} dotSize={dotSize} />
 )}
           <GreenDots showDots={showDots} dotRefs={dotRefs} />
         </div>
