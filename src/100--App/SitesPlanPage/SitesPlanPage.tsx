@@ -110,6 +110,19 @@ const SitesPlanPage = () => {
     hasPlanToken ? 'checking' : 'denied',
   );
 
+
+  const requestOrientationPermission = async () => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const DeviceOrientationEventAny = DeviceOrientationEvent as any;
+
+  if (typeof DeviceOrientationEventAny.requestPermission === "function") {
+    const response = await DeviceOrientationEventAny.requestPermission();
+
+    if (response !== "granted") {
+      alert("Permission d'orientation refusée.");
+    }
+  }
+};
   
   useEffect(() => {
     if (!pendingScrollSlug || !showDots[pendingScrollSlug]) {
@@ -236,6 +249,13 @@ const dotSize = Math.max(5, 22 / zoomScale);
 
   return (
     <article className="flex flex-col items-center gap-6 pb-10 overflow-x-hidden">
+      <button
+  type="button"
+  onClick={requestOrientationPermission}
+  className="mb-2 rounded-lg bg-secondary px-4 py-2 text-white"
+>
+  Activer la direction
+</button>
       {planAccessStatus === 'checking' && (
         <p className="text-[1.6em] font-bold text-secondary text-center">
           Validation du lien du plan...
