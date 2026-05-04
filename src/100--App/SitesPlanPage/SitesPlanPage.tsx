@@ -110,6 +110,28 @@ const SitesPlanPage = () => {
     hasPlanToken ? 'checking' : 'denied',
   );
 
+const [showOrientationButton, setShowOrientationButton] = useState(false);
+
+
+  useEffect(() => {
+    if (needsOrientationPermission()) {
+      setShowOrientationButton(true);
+    }
+  }, []);
+
+
+  const needsOrientationPermission = () => {
+  const isIOS =
+    /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); // iPadOS fix
+
+  const needsPermission =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    typeof (DeviceOrientationEvent as any).requestPermission === "function";
+
+  return isIOS && needsPermission;
+};
+
 
   const requestOrientationPermission = async () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -266,7 +288,7 @@ const dotSize = Math.max(5, 22 / zoomScale);
               <button
   type="button"
   onClick={requestOrientationPermission}
-  className="bg-green-700 text-white px-4 py-2 rounded mb-4"
+  className={`bg-green-700 text-white px-4 py-2 rounded mb-4 mt-4 ${showOrientationButton ? 'block' : 'hidden'}`}
 >
   Activer la direction
 </button>
