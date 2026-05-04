@@ -252,7 +252,7 @@ const dotSize = Math.max(8, 24 / zoomScale);
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
   <div
-    className="absolute rounded-full bg-blue-500 border-2 border-white"
+    className="absolute rounded-full bg-blue-500 border border-white"
     style={{
       left: `${userPosition.left}%`,
       top: `${userPosition.top}%`,
