@@ -266,7 +266,7 @@ const dotSize = Math.max(5, 22 / zoomScale);
               <button
   type="button"
   onClick={requestOrientationPermission}
-  className="hidden"
+  className="bg-green-700 text-white px-4 py-2 rounded mb-4"
 >
   Activer la direction
 </button>
