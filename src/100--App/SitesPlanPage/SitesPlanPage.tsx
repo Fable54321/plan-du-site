@@ -228,10 +228,12 @@ const SitesPlanPage = () => {
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
   <div
-    className="absolute h-4 w-4 rounded-full bg-blue-500 border-2 border-white"
+    className="absolute rounded-full bg-blue-500 border-2 border-white"
     style={{
       left: `${userPosition.left}%`,
       top: `${userPosition.top}%`,
+       width: "clamp(6px, 1.8vw, 16px)",
+  height: "clamp(6px, 1.8vw, 16px)",
       transform: "translate(-50%, -50%)",
     }}
   />
