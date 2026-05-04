@@ -249,13 +249,7 @@ const dotSize = Math.max(5, 22 / zoomScale);
 
   return (
     <article className="flex flex-col items-center gap-6 pb-10 overflow-x-hidden">
-      <button
-  type="button"
-  onClick={requestOrientationPermission}
-  className="mb-2 rounded-lg bg-secondary px-4 py-2 text-white"
->
-  Activer la direction
-</button>
+
       {planAccessStatus === 'checking' && (
         <p className="text-[1.6em] font-bold text-secondary text-center">
           Validation du lien du plan...
@@ -269,6 +263,13 @@ const dotSize = Math.max(5, 22 / zoomScale);
       )}
 
       {planAccessStatus === 'allowed' && <section className='flex flex-col items-center'>
+              <button
+  type="button"
+  onClick={requestOrientationPermission}
+  className="mb-2 rounded-lg bg-secondary px-4 py-2 text-black"
+>
+  Activer la direction
+</button>
         <div  className='relative fade-image'>
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
