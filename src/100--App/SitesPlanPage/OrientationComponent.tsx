@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react";
 
 type Props = {
-    userPosition: { left: number; top: number, accuracy: number } | null;
-    dotSize: number;
-}
+  userPosition: { left: number; top: number; accuracy: number } | null;
+  dotSize: number;
+};
 
 const OrientationComponent = ({ userPosition, dotSize }: Props) => {
   const [heading, setHeading] = useState<number>(0);
-
 
   useEffect(() => {
     const handleOrientation = (event: DeviceOrientationEvent) => {
@@ -36,52 +35,36 @@ const OrientationComponent = ({ userPosition, dotSize }: Props) => {
     };
   }, []);
 
-  // 👉 Keep YOUR dot size logic exactly as you had it
- // <-- replace with your existing logic if dynamic
+  if (!userPosition) return null;
 
   return (
-    <>
-      {userPosition && (
+    <div
+      className="absolute"
+      style={{
+        left: `${userPosition.left}%`,
+        top: `${userPosition.top}%`,
+        transform: "translate(-50%, -50%)",
+      }}
+    >
+      <div
+        style={{
+          transform: `rotate(${heading}deg)`,
+          transformOrigin: "50% 70%",
+          height: `${dotSize}px`,
+          width: `${dotSize}px`,
+        }}
+      >
         <div
-          className="absolute"
           style={{
-            left: `${userPosition.left}%`,
-            top: `${userPosition.top}%`,
-            transform: "translate(-50%, -50%)",
+            width: 0,
+            height: 0,
+            borderLeft: `${dotSize / 3}px solid transparent`,
+            borderRight: `${dotSize / 3}px solid transparent`,
+            borderBottom: `${dotSize}px solid #3b82f6`,
           }}
-        >
-          {/* 🔵 Your dot (UNCHANGED STYLE) */}
-          <div
-            className="rounded-full bg-blue-500 border-2 border-white"
-            style={{
-              width: `${dotSize}px`,
-              height: `${dotSize}px`,
-            }}
-          />
-
-          {/* 🔺 Direction arrow */}
-          <div
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: `translate(-50%, -120%) rotate(${heading}deg)`,
-              transformOrigin: "50% 100%",
-            }}
-          >
-            <div
-              style={{
-                width: 0,
-                height: 0,
-                borderLeft: "8px solid transparent",
-                borderRight: "8px solid transparent",
-                borderBottom: "16px solid #3b82f6", // same blue family
-              }}
-            />
-          </div>
-        </div>
-      )}
-    </>
+        />
+      </div>
+    </div>
   );
 };
 
