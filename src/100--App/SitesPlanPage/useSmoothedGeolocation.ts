@@ -15,6 +15,12 @@ type RawPosition = {
   timestamp: number;
 };
 
+const MAX_HISTORY_LENGTH = 8;
+const MAX_REASONABLE_ACCURACY = 120;
+const RECENCY_HALF_LIFE_MS = 12000;
+
+const clampToPlan = (value: number) => Math.min(100, Math.max(0, value));
+
 export type UserPlanPosition = {
   left: number;
   top: number;
@@ -71,11 +77,18 @@ export const useSmoothedGeolocation = (
     setError(null);
 
     const smoothPositions = (rawPositions: RawPosition[]) => {
-      const weighted = rawPositions.map((entry) => {
-        const weight = 1 / Math.max(entry.accuracy, 5);
+      const now = rawPositions[rawPositions.length - 1]?.timestamp ?? Date.now();
+      const reliablePositions = rawPositions.filter((entry) => entry.accuracy <= MAX_REASONABLE_ACCURACY);
+      const positions = reliablePositions.length > 0 ? reliablePositions : rawPositions.slice(-1);
+
+      const weighted = positions.map((entry) => {
+        const age = Math.max(0, now - entry.timestamp);
+        const recencyWeight = Math.exp(-age / RECENCY_HALF_LIFE_MS);
+        const accuracyWeight = 1 / Math.max(entry.accuracy, 5) ** 1.35;
+
         return {
           ...entry,
-          weight,
+          weight: recencyWeight * accuracyWeight,
         };
       });
 
@@ -93,6 +106,10 @@ export const useSmoothedGeolocation = (
     };
 
     const updatePosition = (coords: GeolocationCoordinates, timestamp: number) => {
+      if (!Number.isFinite(coords.latitude) || !Number.isFinite(coords.longitude)) {
+        return;
+      }
+
       positionHistory.current.push({
         lat: coords.latitude,
         lng: coords.longitude,
@@ -100,7 +117,7 @@ export const useSmoothedGeolocation = (
         timestamp,
       });
 
-      if (positionHistory.current.length > 6) {
+      if (positionHistory.current.length > MAX_HISTORY_LENGTH) {
         positionHistory.current.shift();
       }
 
@@ -108,8 +125,8 @@ export const useSmoothedGeolocation = (
       const planPosition = gpsToPlanPosition(smoothed.lat, smoothed.lng, calibrationPoints);
 
       setPosition({
-        left: planPosition.x,
-        top: planPosition.y,
+        left: clampToPlan(planPosition.x),
+        top: clampToPlan(planPosition.y),
         accuracy: smoothed.accuracy,
         lat: smoothed.lat,
         lng: smoothed.lng,

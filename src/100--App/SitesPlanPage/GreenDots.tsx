@@ -1,4 +1,3 @@
-import { Asterisk } from "lucide-react";
 import type { MutableRefObject } from "react";
 import './GreenDot.css'
 
@@ -18,8 +17,18 @@ const GreenDots = ({ showDots, dotRefs }: Props) => {
 
   return (
     <>
-    {<div ref={setDotRef('1')} id={'1'} className='  absolute apsect-square w-[3.8%]  bottom-[13.9%] left-[39.2%] text-[#01ff1f]  '><Asterisk className="w-full h-full"  /></div>}
-       {showDots['52'] && <div ref={setDotRef('52')} id={'52'} className='blink-on absolute aspect-square w-[1.8%] bottom-[4.4%] left-[9.5%] bg-[#01ff1f] rounded-full border  '></div>}
+      <div
+        ref={setDotRef('1')}
+        id='1'
+        className='absolute aspect-square w-[3.2%] bottom-[13.9%] left-[39.2%] flex items-center justify-center'
+      >
+        <div className='relative flex h-full w-full items-center justify-center'>
+          <div className='absolute bottom-[3%] left-1/2 h-[36%] w-[36%] -translate-x-1/2 rotate-45 rounded-[2px] bg-emerald-400 border-b border-r border-white/85 shadow-[0_4px_8px_rgba(15,23,42,0.22)]' />
+          <div className='absolute inset-[8%] rounded-full bg-emerald-400 border border-white/90 shadow-[0_0_0_1px_rgba(6,78,59,0.15),0_0_12px_rgba(16,185,129,0.45)]' />
+          <span className='relative z-10 text-[0.72em] font-black leading-none text-emerald-950'>1</span>
+        </div>
+      </div>
+      {showDots['52'] && <div ref={setDotRef('52')} id={'52'} className='blink-on absolute aspect-square w-[1.8%] bottom-[4.4%] left-[9.5%] bg-[#01ff1f] rounded-full border  '></div>}
         {showDots['53'] && <div ref={setDotRef('53')} id={'53'} className='blink-on absolute aspect-square w-[1.8%] bottom-[10.5%] left-[6.4%] bg-[#01ff1f] rounded-full border  '></div>}
         {showDots['E'] && <div ref={setDotRef('E')} id={'E'} className='blink-on absolute aspect-square w-[1.8%] bottom-[9%] left-[21.2%] bg-[#01ff1f] rounded-full border  '></div>}
         {showDots['D'] && <div ref={setDotRef('D')} id={'D'}  className='absolute aspect-square w-[1.8%] bottom-[9%] left-[24%] bg-[#01ff1f] rounded-full border  '></div>}
