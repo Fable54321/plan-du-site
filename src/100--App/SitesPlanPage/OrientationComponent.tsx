@@ -6,7 +6,7 @@ type Props = {
 };
 
 const OrientationComponent = ({ userPosition, dotSize }: Props) => {
-  const [heading, setHeading] = useState<number>(0);
+  const [, setHeading] = useState<number>(0);
 
   useEffect(() => {
     const handleOrientation = (event: DeviceOrientationEvent) => {
