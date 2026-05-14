@@ -17,7 +17,7 @@ const normalizeSearch = (value: string) =>
     .toLowerCase();
 
 const calibrationPoints = [
-  { lat: 45.51480, lng: -74.06292, x: 41.10236, y: 84.2 },
+  { lat: 45.51480, lng: -74.06292, x: 40.95, y: 84.2 },
   { lat: 45.51472, lng: -74.06192, x: 53.3858, y: 68.8188 },
   { lat: 45.51526, lng: -74.06042, x: 61.2073, y: 35.6357 },
   { lat: 45.51554, lng: -74.06466, x: 9.3963, y: 93.9946 },
