@@ -39,31 +39,21 @@ const OrientationComponent = ({ userPosition, dotSize }: Props) => {
 
   return (
     <div
-      className="absolute "
+      className="absolute"
       style={{
         left: `${userPosition.left}%`,
         top: `${userPosition.top}%`,
         transform: "translate(-50%, -50%)",
       }}
     >
-      <div 
+      <div
         style={{
-          transform:`rotate(${heading + 83}deg)`,
-          transformOrigin: "50% 70%",
-          height: `${dotSize}px`,
           width: `${dotSize}px`,
+          height: `${dotSize}px`,
+          backgroundColor: "#EDFF29",
+          borderRadius: "50%",
         }}
-      >
-        <div 
-          style={{
-            width: 0,
-            height: 0,
-            borderLeft: `${dotSize / 3}px solid transparent`,
-            borderRight: `${dotSize / 3}px solid transparent`,
-            borderBottom: `${dotSize}px solid #EDFF29`,
-          }}
-        />
-      </div>
+      />
     </div>
   );
 };
