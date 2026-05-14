@@ -3,9 +3,9 @@ import { useParams } from 'react-router-dom'
 import GreenDots from './GreenDots'
 import buildingsList from '../../assets/data/buildingsList'
 import plan from '../../assets/images/1777456864065-7231d062-1073-44d2-a4d6-6d346233fa41_1_upscayl_4x_upscayl-standard-4x.png'
-import { gpsToPlanPosition } from '../../Utils/gpsToPlanPosition'
 import { getVisitorPlan } from '../../api/visitorPlanApi'
 import OrientationComponent from './OrientationComponent'
+import { useSmoothedGeolocation } from './useSmoothedGeolocation'
 
 
 
@@ -105,12 +105,26 @@ const SitesPlanPage = () => {
 
   const [searchInput, setSearchInput] = useState('');
   const [pendingScrollSlug, setPendingScrollSlug] = useState<string | null>(null);
-  const [userPosition, setUserPosition] = useState<{ left: number; top: number, accuracy: number } | null>(null);
   const [planAccessStatus, setPlanAccessStatus] = useState<'checking' | 'allowed' | 'denied'>(
     hasPlanToken ? 'checking' : 'denied',
   );
 
-const [showOrientationButton, setShowOrientationButton] = useState(false);
+  const [showOrientationButton, setShowOrientationButton] = useState(false);
+
+  const { position: userPosition, status: geoStatus, error: geoError } = useSmoothedGeolocation(
+    planAccessStatus === 'allowed',
+    calibrationPoints,
+  );
+
+  const geoStatusLabel = geoError
+    ? `Erreur de localisation: ${geoError}`
+    : userPosition
+    ? `Localisation active — précision approximative: ±${Math.round(userPosition.accuracy)} m`
+    : geoStatus === 'denied'
+    ? 'Autorisation de localisation refusée.'
+    : geoStatus === 'unsupported'
+    ? 'Géolocalisation non supportée par ce navigateur.'
+    : 'Localisation en cours…';
 
 
   useEffect(() => {
@@ -198,40 +212,6 @@ const [showOrientationButton, setShowOrientationButton] = useState(false);
   };
 }, [token]);
  
- useEffect(() => {
-  if (planAccessStatus !== 'allowed') return;
-
-  if (!navigator.geolocation) {
-    console.error("Geolocation is not supported.");
-    return;
-  }
-
-  const watchId = navigator.geolocation.watchPosition(
-    (position) => {
-      const { latitude, longitude, accuracy } = position.coords;
-
-      const dot = gpsToPlanPosition(latitude, longitude, calibrationPoints);
-
-      setUserPosition({
-        left: dot.x,
-        top: dot.y,
-        accuracy,
-      });
-    },
-    (error) => {
-      console.error("GPS error:", error);
-    },
-    {
-      enableHighAccuracy: true,
-      maximumAge: 1000,
-      timeout: 10000,
-    }
-  );
-
-  return () => {
-    navigator.geolocation.clearWatch(watchId);
-  };
-}, [planAccessStatus]);
 
   const filteredBuildings = useMemo(() => {
     const search = normalizeSearch(searchInput);
@@ -292,11 +272,14 @@ const dotSize = Math.max(5, 22 / zoomScale);
 >
   Activer la direction
 </button>
-        <div  className='relative fade-image'>
+        <div className='text-center mb-4 text-sm text-slate-800'>
+          {geoStatusLabel}
+        </div>
+        <div className='relative fade-image'>
         <img className='block w-full max-w-full' src={plan} alt="Plan aérien du 171, rang ste-Sophie" />
         {userPosition && (
-<OrientationComponent userPosition={userPosition} dotSize={dotSize} />
-)}
+          <OrientationComponent userPosition={userPosition} dotSize={dotSize} />
+        )}
           <GreenDots showDots={showDots} dotRefs={dotRefs} />
         </div>
       </section>}
